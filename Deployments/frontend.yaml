@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: moviedeployment
+spec:
+  selector:
+    matchLabels:
+      app: movie-front
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: movie-front
+    spec:
+      containers:
+      - name: nginx
+        image: frontnumber:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1 
+kind: Service 
+metadata:
+  name: movie-Service
+spec:
+  selector:
+    app: movie-front
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
